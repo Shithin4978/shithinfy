@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>list</title>
+</head>
+<body>
+    <div style="background-color:  darkslategray;">
+    <h1>Ordered list</h1>
+    <ol>
+        <li>Apple</li>
+        <li>Banana</li>
+        <li>Orange</li>
+    </ol>
+    <h1>Unordered list</h1>
+    <ul>
+        <li>Car</li>
+        <li>Jeep</li>
+        <li>Bus</li>
+    </ul>
+    <h1>Description list</h1>
+    <dl>
+        <dt>Apple</dt>
+        <dd>Apple is a fruit</dd>
+        <dt>Car</dt>
+        <dd>Car is a vehicle</dd>
+    </dl>
+    
+    <h1>Table</h1>
+    <table border="1">
+        <tr>
+            <th>monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursdat</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+        </tr>
+        <tr>
+            <td>C</td>
+            <td>C++</td>
+            <td>Java</td>
+            <td>Python</td>
+            <td>Php</td>
+            <td>Html</td>
+        </tr>
+        <tr>
+            <td>Javascript</td>
+            <td>Nodejs</td>
+            <td>React</td>
+            <td>Bootstrap</td>
+            <td>Css</td>
+            <td>Android</td>
+        </tr>
+        <tr>
+            <td>Swift</td>
+            <td>Ruby</td>
+            <td>Sql</td>
+            <td>Go</td>
+            <td>Pascal</td>
+            <td>Bash</td>
+        </tr>
+        <tr>
+            <td>Matlab</td>
+            <td>Scala</td>
+            <td>Ada</td>
+            <td>Kotlin</td>
+            <td>Rust</td>
+            <td>R</td>
+        </tr>
+
+    </table>
+    </div>
+    
+</body>
+</html>
