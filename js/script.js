@@ -89,4 +89,8 @@ function updateItem(itemId, currentName) {
       alert('Item updated successfully!');
       getItems(); // Refresh item list
     })
-    .catch(error)
+    .catch(error => {
+      console.error('Error updating item:', error);
+      alert('An error occurred. Please try again.');
+    });
+}
