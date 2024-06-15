@@ -89,4 +89,4 @@ function updateItem(itemId, currentName) {
       alert('Item updated successfully!');
       getItems(); // Refresh item list
     })
-    .catch(error
+    .catch(error)
