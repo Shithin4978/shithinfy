@@ -1,12 +1,13 @@
 // Firebase project configuration (replace with your own)
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+ apiKey: "AIzaSyClhAWRhTb2yUZ6BeLb5WiZVRXl-Txe-iY",
+    authDomain: "shithinify.firebaseapp.com",
+    databaseURL: "https://shithinify-default-rtdb.firebaseio.com",
+    projectId: "shithinify",
+    storageBucket: "shithinify.appspot.com",
+    messagingSenderId: "1004754273980",
+    appId: "1:1004754273980:web:5eaa5bb8ad455584ad32b9",
+    measurementId: "G-20SQMB0XVS"
 };
 
 // Initialize Firebase
