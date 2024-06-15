@@ -1,96 +1,74 @@
-// Firebase project configuration (replace with your own)
-const firebaseConfig = {
- apiKey: "AIzaSyClhAWRhTb2yUZ6BeLb5WiZVRXl-Txe-iY",
-    authDomain: "shithinify.firebaseapp.com",
-    databaseURL: "https://shithinify-default-rtdb.firebaseio.com",
-    projectId: "shithinify",
-    storageBucket: "shithinify.appspot.com",
-    messagingSenderId: "1004754273980",
-    appId: "1:1004754273980:web:5eaa5bb8ad455584ad32b9",
-    measurementId: "G-20SQMB0XVS"
-};
+// Reference to the Firebase Realtime Database
+const dbRef = database.ref('/data');
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-// Reference to the database
-const database = firebase.database();
-
-// Create button click event listener
-document.getElementById('create-btn').addEventListener('click', createItem);
-
-// Function to create a new item
-function createItem() {
-  const itemName = document.getElementById('item-name').value;
-
-  // Error handling for empty name
-  if (!itemName) {
-    alert('Please enter an item name.');
-    return;
+// Function to create data
+function createData() {
+  const name = document.getElementById('name').value.trim();
+  if (name !== '') {
+    const newData = {
+      name: name
+    };
+    dbRef.push(newData);
+    document.getElementById('name').value = '';
+    fetchData();
+  } else {
+    alert('Please enter a name');
   }
-
-  const newItemId = database.ref('items').push().key; // Generate unique ID
-  database.ref(`items/${newItemId}`).set({ name: itemName })
-    .then(() => {
-      alert('Item created successfully!');
-      document.getElementById('item-name').value = ''; // Clear input field
-      getItems(); // Refresh item list
-    })
-    .catch(error => {
-      console.error('Error creating item:', error);
-      alert('An error occurred. Please try again.');
-    });
 }
 
-// Function to get all items and display them in the list
-function getItems() {
-  const itemRef = database.ref('items');
-
-  itemRef.on('value', snapshot => {
-    const items = snapshot.val();
-    const itemList = document.getElementById('item-list');
-    itemList.innerHTML = ''; // Clear previous list items
-
-    if (items) {
-      Object.keys(items).forEach(itemId => {
-        const item = items[itemId];
-        const listItem = document.createElement('li');
-        listItem.textContent = item.name;
-
-        // Add buttons for update and delete (optional)
-        const updateBtn = document.createElement('button');
-        updateBtn.textContent = 'Update';
-        updateBtn.addEventListener('click', () => updateItem(itemId, item.name));
-        listItem.appendChild(updateBtn);
-
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'Delete';
-        deleteBtn.addEventListener('click', () => deleteItem(itemId));
-        listItem.appendChild(deleteBtn);
-
-        itemList.appendChild(listItem);
-      });
-    } else {
-      itemList.innerHTML = '<li>No items found.</li>';
-    }
+// Function to read data
+function fetchData() {
+  dbRef.on('value', function(snapshot) {
+    const dataList = document.getElementById('dataList');
+    dataList.innerHTML = '';
+    snapshot.forEach(function(childSnapshot) {
+      const data = childSnapshot.val();
+      const li = document.createElement('li');
+      li.innerText = data.name;
+      dataList.appendChild(li);
+    });
   });
 }
 
-// Function to update an item (optional)
-function updateItem(itemId, currentName) {
-  const newName = prompt('Enter the new name for the item:', currentName);
-
-  if (!newName) {
-    return;
-  }
-
-  database.ref(`items/${itemId}`).set({ name: newName })
-    .then(() => {
-      alert('Item updated successfully!');
-      getItems(); // Refresh item list
-    })
-    .catch(error => {
-      console.error('Error updating item:', error);
-      alert('An error occurred. Please try again.');
+// Function to update data
+function updateData() {
+  const newName = document.getElementById('updateName').value.trim();
+  if (newName !== '') {
+    dbRef.once('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        const data = childSnapshot.val();
+        if (data.name === newName) {
+          const key = childSnapshot.key;
+          dbRef.child(key).update({ name: newName });
+        }
+      });
     });
+    document.getElementById('updateName').value = '';
+    fetchData();
+  } else {
+    alert('Please enter a new name');
+  }
 }
+
+// Function to delete data
+function deleteData() {
+  const nameToDelete = document.getElementById('deleteName').value.trim();
+  if (nameToDelete !== '') {
+    dbRef.once('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        const data = childSnapshot.val();
+        if (data.name === nameToDelete) {
+          const key = childSnapshot.key;
+          dbRef.child(key).remove();
+        }
+      });
+    });
+    document.getElementById('deleteName').value = '';
+    fetchData();
+  } else {
+    alert('Please enter a name to delete');
+  }
+}
+
+// Fetch initial data on page load
+fetchData();
