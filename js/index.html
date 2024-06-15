@@ -3,30 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Firebase CRUD Operations</title>
-  <!-- Include Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-database.js"></script>
-  <script src="config.js"></script>
+  <title>Firebase Example</title>
 </head>
 <body>
-  <h1>Firebase Realtime Database CRUD Operations</h1>
-
-  <h2>Create Operation</h2>
-  <input type="text" id="name" placeholder="Enter name">
-  <button onclick="createData()">Add Data</button>
-
-  <h2>Read Operation</h2>
+  <input type="text" id="textInput">
+  <button onclick="writeData()">Add Data</button>
   <ul id="dataList"></ul>
 
-  <h2>Update Operation</h2>
-  <input type="text" id="updateName" placeholder="Enter new name">
-  <button onclick="updateData()">Update Data</button>
+  <br>
+  <button onclick="myfunction();">tst</button>
+<!-- Include Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
-  <h2>Delete Operation</h2>
-  <input type="text" id="deleteName" placeholder="Enter name to delete">
-  <button onclick="deleteData()">Delete Data</button>
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
 
-  <script src="script.js"></script>
 </body>
 </html>

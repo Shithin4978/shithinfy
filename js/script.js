@@ -1,74 +1,64 @@
-// Reference to the Firebase Realtime Database
-const dbRef = database.ref('/data');
+// Reference to the Firebase database
+const database = firebase.database();
 
-// Function to create data
-function createData() {
-  const name = document.getElementById('name').value.trim();
-  if (name !== '') {
-    const newData = {
-      name: name
-    };
-    dbRef.push(newData);
-    document.getElementById('name').value = '';
-    fetchData();
-  } else {
-    alert('Please enter a name');
-  }
+// Function to write data to Firebase
+function writeData() {
+  const textInput = document.getElementById('textInput');
+  const textValue = textInput.value;
+
+  // Push data to Firebase
+  database.ref('items').push({
+    text: textValue
+  });
+
+  textInput.value = ''; // Clear input field after adding data
 }
 
-// Function to read data
-function fetchData() {
-  dbRef.on('value', function(snapshot) {
+// Function to read data from Firebase
+function readData() {
+  database.ref('items').on('value', function(snapshot) {
     const dataList = document.getElementById('dataList');
-    dataList.innerHTML = '';
+    dataList.innerHTML = ''; // Clear previous data
+
     snapshot.forEach(function(childSnapshot) {
       const data = childSnapshot.val();
-      const li = document.createElement('li');
-      li.innerText = data.name;
-      dataList.appendChild(li);
+      const key = childSnapshot.key; // Get the key of the data
+      const listItem = document.createElement('li');
+      listItem.textContent = data.text;
+
+      // Add delete button
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.onclick = function() {
+        deleteData(key);
+      };
+
+      // Add update button
+      const updateButton = document.createElement('button');
+      updateButton.textContent = 'Update';
+      updateButton.onclick = function() {
+        const newText = prompt('Enter the new text');
+        updateData(key, newText);
+      };
+
+      listItem.appendChild(deleteButton);
+      listItem.appendChild(updateButton);
+      dataList.appendChild(listItem);
     });
   });
 }
 
-// Function to update data
-function updateData() {
-  const newName = document.getElementById('updateName').value.trim();
-  if (newName !== '') {
-    dbRef.once('value', function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-        const data = childSnapshot.val();
-        if (data.name === newName) {
-          const key = childSnapshot.key;
-          dbRef.child(key).update({ name: newName });
-        }
-      });
-    });
-    document.getElementById('updateName').value = '';
-    fetchData();
-  } else {
-    alert('Please enter a new name');
-  }
+// Function to delete data from Firebase
+function deleteData(key) {
+  database.ref('items').child(key).remove();
 }
 
-// Function to delete data
-function deleteData() {
-  const nameToDelete = document.getElementById('deleteName').value.trim();
-  if (nameToDelete !== '') {
-    dbRef.once('value', function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-        const data = childSnapshot.val();
-        if (data.name === nameToDelete) {
-          const key = childSnapshot.key;
-          dbRef.child(key).remove();
-        }
-      });
-    });
-    document.getElementById('deleteName').value = '';
-    fetchData();
-  } else {
-    alert('Please enter a name to delete');
-  }
+// Function to update data in Firebase
+function updateData(key, newText) {
+  database.ref('items').child(key).update({
+    text: newText
+  });
 }
 
-// Fetch initial data on page load
-fetchData();
+// Call readData function to initially load data
+readData();
